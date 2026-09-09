@@ -1,13 +1,4 @@
 services:
-  # PostgreSQL Database
-  - type: pserv
-    name: sendvpn-db
-    env: docker
-    plan: free
-    region: frankfurt
-    dockerfilePath: ./Dockerfile.postgres
-    dockerContext: .
-
   # Web Service - API + Bot
   - type: web
     name: sendvpn-api
@@ -36,7 +27,6 @@ services:
       - key: PARSER_INTERVAL
         value: 3600
     healthCheckPath: /health
-    autoDeploy: true
 
 databases:
   - name: sendvpn-db
