@@ -1,0 +1,47 @@
+# Render.com Blueprint Configuration
+services:
+  # Web Service - API + Bot
+  - type: web
+    name: sendvpn-api
+    runtime: python
+    plan: free
+    region: frankfurt  # Ближайший к России регион
+    branch: main
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+
+    envVars:
+      - key: MODE
+        value: all  # Запускаем и бот и API
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: BOT_TOKEN
+        sync: false  # Нужно указать вручную
+      - key: ADMIN_IDS
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sendvpn-db
+          property: connectionString
+      - key: LOG_LEVEL
+        value: INFO
+      - key: PARSER_INTERVAL
+        value: 3600
+
+    healthCheckPath: /health
+
+    autoDeploy: true
+
+  # PostgreSQL Database
+  - type: pserv
+    name: sendvpn-db
+    runtime: postgres
+    plan: free
+    databaseName: sendvpn
+    databaseUser: sendvpn
+    region: frankfurt
+
+    ipAllowList: []  # Разрешить доступ из любого места

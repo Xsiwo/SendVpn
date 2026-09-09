@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  sendvpn:
+    build: .
+    container_name: sendvpn
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - TZ=Europe/Moscow
+    networks:
+      - sendvpn_network
+
+  # PostgreSQL (опционально, вместо SQLite)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: sendvpn_db
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: sendvpn
+  #     POSTGRES_USER: sendvpn
+  #     POSTGRES_PASSWORD: your_password_here
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - sendvpn_network
+
+  # Redis (опционально, для кеширования)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: sendvpn_redis
+  #   restart: unless-stopped
+  #   networks:
+  #     - sendvpn_network
+
+networks:
+  sendvpn_network:
+    driver: bridge
+
+# volumes:
+#   postgres_data:

@@ -1,0 +1,42 @@
+# Core dependencies
+aiogram==3.15.0
+aiohttp==3.10.10
+asyncio==3.4.3
+
+# Database
+sqlalchemy==2.0.36
+aiosqlite==0.20.0
+alembic==1.14.0
+
+# Parsing
+beautifulsoup4==4.12.3
+lxml==5.3.0
+requests==2.32.3
+
+# VPN protocols validation
+python-wireguard==0.2.2
+paramiko==3.5.0
+
+# Configuration
+python-dotenv==1.0.1
+pyyaml==6.0.2
+
+# Utilities
+python-dateutil==2.9.0
+pytz==2024.2
+cachetools==5.5.0
+
+# Logging
+colorlog==6.9.0
+
+# Payment (optional для донатов)
+stripe==11.1.1
+yookassa==3.6.0
+
+# Telegram payments
+cryptography==43.0.3
+
+# FastAPI для REST API
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.9.2
