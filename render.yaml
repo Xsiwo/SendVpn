@@ -1,25 +1,30 @@
-# Render.com Blueprint Configuration
 services:
+  # PostgreSQL Database
+  - type: pserv
+    name: sendvpn-db
+    env: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile.postgres
+    dockerContext: .
+
   # Web Service - API + Bot
   - type: web
     name: sendvpn-api
-    runtime: python
+    env: python
     plan: free
-    region: frankfurt  # Ближайший к России регион
-    branch: main
-
+    region: frankfurt
     buildCommand: pip install -r requirements.txt
     startCommand: python main.py
-
     envVars:
       - key: MODE
-        value: all  # Запускаем и бот и API
+        value: all
       - key: PORT
         value: 10000
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: BOT_TOKEN
-        sync: false  # Нужно указать вручную
+        sync: false
       - key: ADMIN_IDS
         sync: false
       - key: DATABASE_URL
@@ -30,18 +35,12 @@ services:
         value: INFO
       - key: PARSER_INTERVAL
         value: 3600
-
     healthCheckPath: /health
-
     autoDeploy: true
 
-  # PostgreSQL Database
-  - type: pserv
-    name: sendvpn-db
-    runtime: postgres
-    plan: free
+databases:
+  - name: sendvpn-db
     databaseName: sendvpn
-    databaseUser: sendvpn
+    user: sendvpn
+    plan: free
     region: frankfurt
-
-    ipAllowList: []  # Разрешить доступ из любого места
